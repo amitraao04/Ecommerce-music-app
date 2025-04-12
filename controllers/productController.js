@@ -1,10 +1,38 @@
 const Product = require('../models/Product');
 
 // @desc Get all products
+// exports.getProducts = async (req, res) => {
+//   try {
+//     const products = await Product.find();
+//     res.json(products);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
+
+// @desc Get all products with optional filtering & search
 exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const { category, search } = req.query;
+
+    // Build query object
+    const query = {};
+
+    if (category) {
+      query.category = category.toLowerCase(); // or keep it as is depending on your data
+    }
+
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    const products = await Product.find(query);
     res.json(products);
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
