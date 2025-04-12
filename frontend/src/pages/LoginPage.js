@@ -41,17 +41,32 @@
 
 import React, { useState } from 'react';
 import { Music, KeyRound } from 'lucide-react';
+import api from '../api/axios';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Logging in with:', { email, password });
-    // TODO: connect with backend
-  };
 
+    try {
+      const res = await api.post('/login', {
+        email,
+        password,
+      });
+
+      console.log('Login success:', res.data);
+
+      // Store the JWT token in localStorage
+      localStorage.setItem('token', res.data.token);
+
+      // Redirect user to home or dashboard page
+      window.location.href = '/dashboard'; // or use react-router
+    } catch (err) {
+      alert('Login error:', err.response?.data || err.message);
+    }
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-800 flex items-center justify-center p-6">
       <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-8 w-full max-w-md border border-white/20">

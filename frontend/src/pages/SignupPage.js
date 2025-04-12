@@ -48,18 +48,35 @@
 // export default SignupPage;
 
 import React, { useState } from 'react';
+import api from '../api/axios';
 
 const SignupPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log('Signing up with:', { name, email, password });
-    // TODO: connect with backend
+  
+    try {
+      const res = await api.post('/signup', {
+        name,
+        email,
+        password,
+      });
+  
+      console.log('Signup success:', res.data);
+  
+      // Store the JWT token in localStorage
+      localStorage.setItem('token', res.data.token);
+  
+      // Redirect user to home or dashboard page
+      window.location.href = '/dashboard'; // or use react-router
+    } catch (err) {
+      alert('Signup error:', err.response?.data || err.message);
+    }
   };
-
+  
   // Music icon SVG
   const MusicIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
