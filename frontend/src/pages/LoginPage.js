@@ -42,6 +42,7 @@
 import React, { useState } from 'react';
 import { Music, KeyRound } from 'lucide-react';
 import api from '../api/axios';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -118,7 +119,14 @@ const LoginPage = () => {
             </button>
           </div>
         </form>
-        
+        <div className="text-center mt-6">
+          <p className="text-sm text-purple-200">
+            Don’t have an account?{' '}
+            <Link to="/signup" className="text-amber-300 hover:underline font-semibold">
+              Sign Up
+            </Link>
+          </p>
+        </div>
         
       </div>
     </div>
