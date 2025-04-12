@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 dotenv.config();
 connectDB();
@@ -16,7 +17,7 @@ app.use(cors());
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/images', express.static('public/images'));
-
+app.use('/api/cart', cartRoutes);
 
 // Test route
 app.get('/', (req, res) => {
