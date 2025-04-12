@@ -71,7 +71,7 @@ const SignupPage = () => {
       localStorage.setItem('token', res.data.token);
   
       // Redirect user to home or dashboard page
-      window.location.href = '/dashboard'; // or use react-router
+      window.location.href = '/'; 
     } catch (err) {
       alert('Signup error:', err.response?.data || err.message);
     }
