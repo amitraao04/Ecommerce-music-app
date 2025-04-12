@@ -15,6 +15,8 @@ app.use(express.json());
 app.use(cors());
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
+app.use('/images', express.static('public/images'));
+
 
 // Test route
 app.get('/', (req, res) => {
