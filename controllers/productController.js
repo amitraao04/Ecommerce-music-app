@@ -12,31 +12,65 @@ const Product = require('../models/Product');
 
 
 // @desc Get all products with optional filtering & search
+// exports.getProducts = async (req, res) => {
+//   try {
+//     const { category, search } = req.query;
+
+//     // Build query object
+//     const query = {};
+
+//     if (category) {
+//       query.category = category.toLowerCase(); // or keep it as is depending on your data
+//     }
+
+//     if (search) {
+//       query.$or = [
+//         { name: { $regex: search, $options: 'i' } },
+//         { description: { $regex: search, $options: 'i' } }
+//       ];
+//     }
+
+//     const products = await Product.find(query);
+//     res.json(products);
+
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
+
+// @desc Get all products with filtering, search, and pagination
 exports.getProducts = async (req, res) => {
   try {
-    const { category, search } = req.query;
-
-    // Build query object
+    const { category, search, page = 1, limit = 10 } = req.query;
     const query = {};
 
     if (category) {
-      query.category = category.toLowerCase(); // or keep it as is depending on your data
+      query.category = category;
     }
 
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } }
+        { description: { $regex: search, $options: 'i' } },
       ];
     }
 
-    const products = await Product.find(query);
-    res.json(products);
+    const skip = (page - 1) * limit;
+    const products = await Product.find(query).skip(skip).limit(parseInt(limit));
+    const total = await Product.countDocuments(query);
 
+    res.json({
+      total,
+      page: parseInt(page),
+      totalPages: Math.ceil(total / limit),
+      products,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 // @desc Get single product
 exports.getProductById = async (req, res) => {
