@@ -6,13 +6,15 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  getCategories, 
 } = require('../controllers/productController');
 const { protect } = require('../middleware/authMiddleware');
 
+router.get('/categories/list', getCategories); 
 router.get('/', getProducts);
 router.get('/:id', getProductById);
-router.post('/', protect, createProduct); // Ideally check for admin
-router.put('/:id', protect, updateProduct); // Ideally check for admin
-router.delete('/:id', protect, deleteProduct); // Ideally check for admin
+router.post('/', protect, createProduct);
+router.put('/:id', protect, updateProduct);
+router.delete('/:id', protect, deleteProduct);
 
 module.exports = router;

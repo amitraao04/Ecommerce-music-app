@@ -114,3 +114,13 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// @desc Get all unique product categories
+exports.getCategories = async (req, res) => {
+  try {
+    const categories = await Product.distinct('category');
+    res.status(200).json(categories);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch categories', error: err.message });
+  }
+};
