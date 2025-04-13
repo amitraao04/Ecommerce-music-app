@@ -41,7 +41,23 @@ const HomePage = () => {
 
     fetchProducts();
     // Simulating cart count - in a real app, you would fetch this from your cart API
-    setCartCount(3);
+    const fetchCartCount = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await axios.get('http://localhost:5000/api/cart', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const totalItems = res.data.items.reduce((acc, item) => acc + item.quantity, 0);
+        setCartCount(totalItems);
+      } catch (err) {
+        console.error('Error fetching cart count:', err);
+      }
+    };
+    
+    fetchCartCount();
+    
   }, [search, category, page]);
 
   const handleLogout = () => {
@@ -50,6 +66,27 @@ const HomePage = () => {
     navigate('/', { replace: true });   // redirect to login page
   };
 
+  const handleAddToCart = async (productId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://localhost:5000/api/cart/add',
+        { productId, quantity: 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // Optimistically update cart count
+      setCartCount((prev) => prev + 1);
+    } catch (err) {
+      console.error('Error adding to cart:', err);
+    }
+  };
+  
+  
 
   // SVG Icons
   const MusicIcon = () => (
@@ -322,7 +359,7 @@ const HomePage = () => {
           </div>
         </div>
         <div style={styles.headerRight}>
-          <button style={styles.cartButton}>
+          <button style={styles.cartButton}  onClick={() => navigate('/cart')}>
             <CartIcon />
             <span>Cart</span>
             {cartCount > 0 && <span style={styles.cartCount}>{cartCount}</span>}
@@ -379,7 +416,7 @@ const HomePage = () => {
                   <p style={styles.productDescription}>{product.description}</p>
                   <div style={styles.productPrice}>
                     <span>₹{product.price}</span>
-                    <button style={styles.addToCartButton}>Add to Cart</button>
+                    <button style={styles.addToCartButton} onClick={() => handleAddToCart(product._id)}>Add to Cart</button>
                   </div>
                 </div>
               </div>
