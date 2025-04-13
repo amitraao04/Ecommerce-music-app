@@ -63,7 +63,7 @@ const LoginPage = () => {
       localStorage.setItem('token', res.data.token);
 
       // Redirect user to home or dashboard page
-      window.location.href = '/';
+      window.location.href = '/Products';
     } catch (err) {
       alert('Login error:', err.response?.data || err.message);
     }

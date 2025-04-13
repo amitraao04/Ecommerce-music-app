@@ -12,6 +12,14 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/', { replace: true }); // redirect to login
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+   
     // Fetch products when component mounts or when search/category/page changes
     const fetchProducts = async () => {
       try {
@@ -39,10 +47,10 @@ const HomePage = () => {
   const handleLogout = () => {
     console.log('Logging out...');
     localStorage.clear(); // clear storage (or cookies if needed)
-    navigate('/login');   // redirect to login page
+    navigate('/', { replace: true });   // redirect to login page
   };
 
-  
+
   // SVG Icons
   const MusicIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
