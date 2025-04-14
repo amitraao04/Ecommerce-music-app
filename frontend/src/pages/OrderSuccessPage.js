@@ -8,11 +8,26 @@ const OrderSuccessPage = () => {
   const { orderId, paymentId } = location.state || {};
 
   useEffect(() => {
+    // Check if user is authenticated
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // If not authenticated, redirect to login page
+      navigate('/');
+      return;
+    }
+    
     // If there's no orderId or paymentId, it means the user didn't complete payment
     if (!orderId || !paymentId) {
       navigate('/cart');
     }
   }, [orderId, paymentId, navigate]);
+
+  const handleLogout = () => {
+    // Clear authentication token
+    localStorage.removeItem('token');
+    // Navigate to login page
+    navigate('/');
+  };
 
   if (!orderId || !paymentId) {
     return null; // This will prevent the page from rendering before redirect
@@ -55,10 +70,10 @@ const OrderSuccessPage = () => {
           </button>
           
           <button 
-            className="view-orders-btn"
-            onClick={() => navigate('/orders')}
+            className="logout-btn"
+            onClick={handleLogout}
           >
-            View My Orders
+            Logout
           </button>
         </div>
       </div>
