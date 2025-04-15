@@ -32,7 +32,7 @@ const CheckoutPage = () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/cart', {
+      const res = await axios.get('https://music-backend-xq0r.onrender.com/api/cart', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCart(res.data);
@@ -100,7 +100,7 @@ const CheckoutPage = () => {
       const totalAmount = (parseFloat(calculateTotal()) + 50) * 100; // Convert to paise
   
       // Create order
-      const orderRes = await axios.post('http://localhost:5000/order', {
+      const orderRes = await axios.post('https://music-backend-xq0r.onrender.com/order', {
         amount: totalAmount,
         currency: 'INR',
         items: cart.items,
@@ -165,7 +165,7 @@ const CheckoutPage = () => {
             console.log('Sending verification data:', paymentData);
   
             const verificationResponse = await axios.post(
-              'http://localhost:5000/api/orders/verify',
+              'https://music-backend-xq0r.onrender.com/api/orders/verify',
               paymentData,
               {
                 headers: { 
@@ -177,7 +177,7 @@ const CheckoutPage = () => {
   
             if (verificationResponse.data.success) {
               // Clear cart after successful payment
-              await axios.delete('http://localhost:5000/api/cart', {
+              await axios.delete('https://music-backend-xq0r.onrender.com/api/cart', {
                 headers: { Authorization: `Bearer ${token}` }
               });
               

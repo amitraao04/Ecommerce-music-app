@@ -19,7 +19,7 @@ const CartPage = () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/cart', {
+      const res = await axios.get('https://music-backend-xq0r.onrender.com/api/cart', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,7 +40,7 @@ const CartPage = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:5000/api/cart/remove',
+        'https://music-backend-xq0r.onrender.com/api/cart/remove',
         { productId },
         {
           headers: {
@@ -60,7 +60,7 @@ const CartPage = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        'http://localhost:5000/api/cart/update',
+        'https://music-backend-xq0r.onrender.com/api/cart/update',
         { productId, quantity },
         {
           headers: {

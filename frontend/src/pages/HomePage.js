@@ -23,7 +23,7 @@ const HomePage = () => {
     // Fetch products when component mounts or when search/category/page changes
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/products', {
+        const res = await axios.get('https://music-backend-xq0r.onrender.com/api/products', {
           params: {
             search,
             category,
@@ -44,7 +44,7 @@ const HomePage = () => {
     const fetchCartCount = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/cart', {
+        const res = await axios.get('https://music-backend-xq0r.onrender.com/api/cart', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +70,7 @@ const HomePage = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:5000/api/cart/add',
+        'https://music-backend-xq0r.onrender.com/api/cart/add',
         { productId, quantity: 1 },
         {
           headers: {
@@ -407,7 +407,7 @@ const HomePage = () => {
             products.map((product) => (
               <div key={product._id} style={styles.productCard}>
                 <img
-                  src={`http://localhost:5000/images/${product.image}`}
+                  src={`https://music-backend-xq0r.onrender.com/images/${product.image}`}
                   alt={product.name}
                   style={styles.productImage}
                 />

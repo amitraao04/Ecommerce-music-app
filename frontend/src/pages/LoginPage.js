@@ -68,7 +68,7 @@ const LoginPage = () => {
       alert('Login error:', err.response?.data || err.message);
     }
   };
-  return (
+  return (  
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-800 flex items-center justify-center p-6">
       <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-8 w-full max-w-md border border-white/20">
         <div className="text-center mb-8">
