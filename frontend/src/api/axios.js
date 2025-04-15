@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/users', // matches your route base
+  baseURL: 'https://music-backend-xq0r.onrender.com/api/users', // matches your route base
   withCredentials: false, // only set to true if using cookies/session
 });
 
